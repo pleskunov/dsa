@@ -90,20 +90,20 @@ target_include_directories(queue
 # queue depends on the linked-list
 target_link_libraries(queue PRIVATE list)
 
-# set (currently broken)
-#add_library(set)
-#target_sources(set
-#  PUBLIC
-#    src/set/set.h
-#  PRIVATE
-#    src/set/set.c
-#  )
-#target_include_directories(set
-#  PUBLIC
-#    src/set
-#  )
-## set depends on the linked-list
-#target_link_libraries(set PRIVATE list)
+# set
+add_library(set)
+target_sources(set
+  PUBLIC
+    src/set/set.h
+  PRIVATE
+    src/set/set.c
+  )
+target_include_directories(set
+  PUBLIC
+    src/set
+  )
+# set depends on the linked-list
+target_link_libraries(set PRIVATE list)
 
 # binary search tree (in progress)
 #add_library(bst)
