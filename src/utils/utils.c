@@ -3,9 +3,7 @@
 #include "utils.h"
 
 int match(const void *key1, const void *key2) {
-  /* code */
-
-  return 0;
+  return int_is_equal(key1, key2);
 }
 
 /* Default key comparisons. */
@@ -29,8 +27,15 @@ int int_match(void *key1, void *key2) {
   }
 }
 
-void destroy(void* data) {
-  /* code */
+int int_is_equal(const void *key1, const void *key2) {
+  int i1 = *((int *)key1);
+  int i2 = *((int *)key2);
+  if (i1 == i2) {
+    return 1;
+  }
+  return 0;
+}
 
-  return;
+void destroy(void* data) {
+  return free(data);
 }

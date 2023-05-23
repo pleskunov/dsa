@@ -15,5 +15,7 @@ int str_match(void *key1, void *key2);
 /* Integer keys. */
 int int_match(void *key1, void *key2);
 
-/* TODO */
+int int_is_equal(const void *key1, const void *key2);
+
+  /* TODO */
 void destroy(void* data);
