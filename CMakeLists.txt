@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
+add_definitions(-DDEBUG)
+
 project(dsa VERSION 1.0 DESCRIPTION "Data structures & algorithms in C.")
 
 # error

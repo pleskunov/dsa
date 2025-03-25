@@ -1,11 +1,25 @@
 #include "darray.h"
+#include "../error/err.h"
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
+_Noreturn static void custom_error_handler(const char *message) {
+  fprintf(stdout, "[DARRAY_LIB]: %s\n", message);
+  exit(EXIT_FAILURE);
+}
 
 void allocate(darray *d, uint64_t capacity) {
-  if (!d) return;
+  #ifdef DEBUG
+    set_error_callback(custom_error_handler, UNRECOVERABLE);
+  #endif
 
+  if (!d) {
+    report_unrecoverable_error("allocate(__darray *d__, ...) : Pointer is set to NULL");
+  }
+
+  /* Initialize all fields first */
   d->elements = NULL;
   d->size = 0;
   d->capacity = 0;
@@ -15,7 +29,9 @@ void allocate(darray *d, uint64_t capacity) {
   }
 
   d->elements = (void **)malloc(capacity * sizeof(void *));
-  if (d->elements) {
+  if (!d->elements) {
+    report_unrecoverable_error("allocate() : Cannot allocate memory!");
+  } else {
     d->capacity = capacity;
   }
 
@@ -23,6 +39,11 @@ void allocate(darray *d, uint64_t capacity) {
 }
 
 void reallocate_for(darray *d, uint64_t additional_size) {
+  #ifdef DEBUG
+    set_error_callback(custom_error_handler, UNRECOVERABLE);
+    //set_error_callback(custom_error_handler);
+  #endif
+
   uint64_t new_size = d->size + additional_size;
 
   if (new_size > d->capacity) {
@@ -36,12 +57,14 @@ void reallocate_for(darray *d, uint64_t additional_size) {
 
     void **new_array = (void **)realloc(d->elements, new_capacity * sizeof(void *));
     if (!new_array) {
+      report_error("reallocate_for() : Reallocation has failed.");
+
       void **old_array = d->elements;
 
       /* Allocate a new memory block */
       void **new_array = (void **)malloc(new_capacity * sizeof(void *));
       if (!new_array) {
-        return;
+        report_unrecoverable_error("reallocate_for() : Cannot allocate memory!");
       }
 
       if (old_array) {
@@ -57,6 +80,7 @@ void reallocate_for(darray *d, uint64_t additional_size) {
 
     d->capacity = new_capacity;
   }
+
   return;
 }
 
