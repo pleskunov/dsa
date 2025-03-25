@@ -27,3 +27,6 @@ target_link_libraries(test-set PRIVATE set list)
 # avl binary tree test
 add_executable(test-avl test-avl.c)
 target_link_libraries(test-avl PRIVATE avl)
+
+add_executable(test-darray test-darray.c)
+target_link_libraries(test-darray PRIVATE darray)

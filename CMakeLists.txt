@@ -2,6 +2,19 @@ cmake_minimum_required(VERSION 3.26)
 
 project(dsa VERSION 1.0 DESCRIPTION "Data structures & algorithms in C.")
 
+# error
+add_library(error)
+target_sources(error
+  PUBLIC
+    src/error/err.h
+  PRIVATE
+    src/error/err.c
+  )
+target_include_directories(error
+  PUBLIC
+    src/error
+  )
+
 # utils
 add_library(utils)
 target_sources(utils
@@ -132,5 +145,21 @@ target_include_directories(avl
   )
 # clist depends on the utils
 target_link_libraries(avl PRIVATE utils)
+
+# dynamic arrays
+add_library(darray)
+target_sources(darray
+  PUBLIC
+    src/darray/darray.h
+  PRIVATE
+    src/darray/darray.c
+  )
+target_include_directories(darray
+  PUBLIC
+    src/darray
+  )
+
+# clist depends on the utils
+target_link_libraries(darray PRIVATE error)
 
 add_subdirectory(tests)
